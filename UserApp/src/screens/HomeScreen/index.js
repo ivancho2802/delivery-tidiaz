@@ -1,23 +1,28 @@
 import React from "react";
-import { View, Dimensions } from "react-native";
+import { View, Dimensions, ScrollView, SafeAreaView } from "react-native";
 
 import HomeMap from '../../components/HomeMap';
 import CovidMessage from '../../components/CovidMessage';
-import HomeSearch from '../../components/HomeSearch';
+import HomeSearch from '../../components/HomeSearch'; 
+
+import styles from './styles.js';
 
 const HomeScreen = (props) => {
   return (
-    <View>
-      <View style={{height: Dimensions.get('window').height - 400}}>
-        <HomeMap />
-      </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+        <View style={{height: Dimensions.get('window').height - 400}}>
+          <HomeMap />
+        </View>
 
-      {/*  Covid Message*/}
-      <CovidMessage />
+        {/*  Covid Message*/}
+        <CovidMessage />
 
-      {/*  Bottom Comp*/}
-      <HomeSearch />
-    </View>
+        {/*  Bottom Comp*/}
+        <HomeSearch />
+
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

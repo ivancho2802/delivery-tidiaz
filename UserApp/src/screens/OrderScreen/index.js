@@ -7,8 +7,8 @@ import { getOrder, getCar } from '../../graphql/queries';
 import { onOrderUpdated, onCarUpdated } from './subscriptions';
 
 const OrderScreen = (props) => {
-  const [car, setCar] = useState(null);
-  const [order, setOrder] = useState(null);
+  const [car, setCar] = useState(0);
+  const [order, setOrder] = useState(0);
 
   const route = useRoute();
   console.log(route.params.id);

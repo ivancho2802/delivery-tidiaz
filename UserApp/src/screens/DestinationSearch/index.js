@@ -16,8 +16,8 @@ const workPlace = {
 };
 
 const DestinationSearch = (props) => {
-  const [originPlace, setOriginPlace] = useState(null);
-  const [destinationPlace, setDestinationPlace] = useState(null);
+  const [originPlace, setOriginPlace] = useState(0);
+  const [destinationPlace, setDestinationPlace] = useState(0);
 
   const navigation = useNavigation();
 
@@ -55,7 +55,7 @@ const DestinationSearch = (props) => {
           }}
           fetchDetails
           query={{
-            key: 'AIzaSyDFhFUaYpyAjNE4Eq-sWCGWjrr6kyGnhbQ',
+            key: 'AIzaSyD0HZOSZ6R5XymzyvKDNUWlS_l5D6s1ak8',
             language: 'en',
           }}
           renderRow={(data) => <PlaceRow data={data} />}
@@ -80,7 +80,7 @@ const DestinationSearch = (props) => {
           }}
           fetchDetails
           query={{
-            key: 'AIzaSyDFhFUaYpyAjNE4Eq-sWCGWjrr6kyGnhbQ',
+            key: 'AIzaSyD0HZOSZ6R5XymzyvKDNUWlS_l5D6s1ak8',
             language: 'en',
           }}
           renderRow={(data) => <PlaceRow data={data} />}

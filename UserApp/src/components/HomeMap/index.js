@@ -1,22 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { Image } from "react-native";
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
-import {API, graphqlOperation} from 'aws-amplify';
+//import {API, graphqlOperation} from 'aws-amplify';useQuery
+import { Graphqlindex } from '../../graphql/index';
+import { useQuery, gpl } from '@apollo/client';
 import { listCars } from '../../graphql/queries';
 
 // import cars from '../../assets/data/cars';
 
 const HomeMap = (props) => {
-  const [cars, setCars] = useState([]);
+  //const [cars, setCars] = useState([]);
+  const [cars, setCars] = useState(0);
 
   useEffect(() => {
     const fetchCars = async () => {
       try {
+        // exampe 
+        //const {error, loadinng, data} =useQuery( listCars );
+        const response = await useQuery( listCars );
+        console.log("graph reuet ivan diaz")
+        console.log(response)
+        /*
         const response = await API.graphql(
-          graphqlOperation(
+          useQuery(
             listCars
           )
-        )
+        )*/
 
         setCars(response.data.listCars.items);
       } catch (e) {

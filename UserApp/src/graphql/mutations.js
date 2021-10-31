@@ -10,6 +10,7 @@ export const createUser = /* GraphQL */ `
       id
       username
       email
+      password
       orders {
         items {
           id
@@ -41,6 +42,7 @@ export const createUser = /* GraphQL */ `
           id
           username
           email
+          password
           createdAt
           updatedAt
         }
@@ -61,6 +63,7 @@ export const updateUser = /* GraphQL */ `
       id
       username
       email
+      password
       orders {
         items {
           id
@@ -92,6 +95,7 @@ export const updateUser = /* GraphQL */ `
           id
           username
           email
+          password
           createdAt
           updatedAt
         }

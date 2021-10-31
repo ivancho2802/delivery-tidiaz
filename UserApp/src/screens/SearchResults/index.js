@@ -8,7 +8,7 @@ import { createOrder } from '../../graphql/mutations';
 import { useRoute, useNavigation } from '@react-navigation/native';
 
 const SearchResults = (props) => {
-  const typeState = useState(null);
+  const typeState = useState(0);
 
   const route = useRoute();
   const navigation = useNavigation();

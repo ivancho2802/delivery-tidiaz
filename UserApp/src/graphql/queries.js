@@ -1,7 +1,59 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
+import {gql} from '@apollo/client'
 
-export const getUser = /* GraphQL */ `
+export const LoginUser = gql/* GraphQL */
+`
+  query LoginUser($clave: String!, $username: String!) {
+    LoginUser(password: $clave, username: $username) {
+      id
+      password
+      username
+      email
+      orders {
+        items {
+          id
+          createdAt
+          type
+          status
+          originLatitude
+          oreiginLongitude
+          destLatitude
+          destLongitude
+          userId
+          carId
+          updatedAt
+        }
+        nextToken
+      }
+      car {
+        id
+        type
+        latitude
+        longitude
+        heading
+        isActive
+        orders {
+          nextToken
+        }
+        userId
+        user {
+          id
+          username
+          email
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const getUser = gql/* GraphQL */
+`
   query GetUser($id: ID!) {
     getUser(id: $id) {
       id
@@ -49,7 +101,7 @@ export const getUser = /* GraphQL */ `
     }
   }
 `;
-export const listUsers = /* GraphQL */ `
+export const listUsers =gql/* GraphQL */ `
   query ListUsers(
     $filter: ModelUserFilterInput
     $limit: Int
@@ -81,7 +133,7 @@ export const listUsers = /* GraphQL */ `
     }
   }
 `;
-export const getCar = /* GraphQL */ `
+export const getCar = gql/* GraphQL */ `
   query GetCar($id: ID!) {
     getCar(id: $id) {
       id
@@ -133,7 +185,7 @@ export const getCar = /* GraphQL */ `
     }
   }
 `;
-export const listCars = /* GraphQL */ `
+export const listCars = gql/* GraphQL */ `
   query ListCars(
     $filter: ModelCarFilterInput
     $limit: Int
@@ -165,7 +217,7 @@ export const listCars = /* GraphQL */ `
     }
   }
 `;
-export const getOrder = /* GraphQL */ `
+export const getOrder = gql/* GraphQL */ `
   query GetOrder($id: ID!) {
     getOrder(id: $id) {
       id
@@ -224,7 +276,7 @@ export const getOrder = /* GraphQL */ `
     }
   }
 `;
-export const listOrders = /* GraphQL */ `
+export const listOrders =gql /* GraphQL */ `
   query ListOrders(
     $filter: ModelOrderFilterInput
     $limit: Int
