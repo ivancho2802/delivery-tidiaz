@@ -1,9 +1,34 @@
-import React from "react";
-import { View, Text, Pressable } from "react-native";
+import React, {useState, useEffect} from "react";
+import { View, Text, Pressable  } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage'; 
 import {DrawerContentScrollView, DrawerItemList} from '@react-navigation/drawer';
-import { Auth } from 'aws-amplify';
+//import { Auth } from 'aws-amplify';
 
 const CustomDrawer = (props) => {
+  
+  const [user, setUser] = useState({});//username: "----", email: "", bill: 0
+  
+  /* useEffect(() => {
+    async function fetchData() {
+      // You can await here
+      try {
+        const value = await AsyncStorage.getItem('tidiazuser');
+        if (value !== null) {
+          // We have data!!
+          console.log(value);
+          setUser(JSON.parse(value))//await Auth.currentAuthenticatedUser();
+        }else{
+          console.log("value");
+          console.log(value);
+        }
+      } catch (error) {
+        // Error retrieving data
+        console.error(error);
+      }
+      // ...
+    }
+    fetchData();
+  }, []); */
   return (
     <DrawerContentScrollView {...props}>
       <View style={{backgroundColor: '#212121', padding: 15}}>
@@ -22,8 +47,8 @@ const CustomDrawer = (props) => {
           }}/>
 
           <View>
-            <Text style={{color: 'white', fontSize: 24}}>Vadim Savin</Text>
-            <Text style={{color: 'lightgrey'}}>5.00 *</Text>
+            <Text style={{color: 'white', fontSize: 24}}>{user.username}</Text>
+            <Text style={{color: 'lightgrey'}}>{user.bill} *</Text>
           </View>
         </View>
 
@@ -58,8 +83,8 @@ const CustomDrawer = (props) => {
 
       <DrawerItemList {...props} />
 
-      {/* Make money */}
-      <Pressable onPress={() => { Auth.signOut() }}>
+      {/* Make money  onPress={() => { Auth.signOut() }}*/}
+      <Pressable>
         <Text style={{padding: 5, paddingLeft: 20}}>Logout</Text>
       </Pressable>
     </DrawerContentScrollView>

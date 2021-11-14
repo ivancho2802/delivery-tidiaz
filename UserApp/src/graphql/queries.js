@@ -1,59 +1,8 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 import {gql} from '@apollo/client'
-
-export const LoginUser = gql/* GraphQL */
-`
-  query LoginUser($clave: String!, $username: String!) {
-    LoginUser(password: $clave, username: $username) {
-      id
-      password
-      username
-      email
-      orders {
-        items {
-          id
-          createdAt
-          type
-          status
-          originLatitude
-          oreiginLongitude
-          destLatitude
-          destLongitude
-          userId
-          carId
-          updatedAt
-        }
-        nextToken
-      }
-      car {
-        id
-        type
-        latitude
-        longitude
-        heading
-        isActive
-        orders {
-          nextToken
-        }
-        userId
-        user {
-          id
-          username
-          email
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const getUser = gql/* GraphQL */
-`
+/* GraphQL */
+export const LOAD_USER = gql`
   query GetUser($id: ID!) {
     getUser(id: $id) {
       id
@@ -101,7 +50,7 @@ export const getUser = gql/* GraphQL */
     }
   }
 `;
-export const listUsers =gql/* GraphQL */ `
+export const listUsers =gql`
   query ListUsers(
     $filter: ModelUserFilterInput
     $limit: Int
@@ -133,9 +82,9 @@ export const listUsers =gql/* GraphQL */ `
     }
   }
 `;
-export const getCar = gql/* GraphQL */ `
+export const getCar = gql`
   query GetCar($id: ID!) {
-    getCar(id: $id) {
+    GetCar(id: $id) {
       id
       type
       latitude
@@ -185,14 +134,15 @@ export const getCar = gql/* GraphQL */ `
     }
   }
 `;
-export const listCars = gql/* GraphQL */ `
+export const listCars = gql `
+
   query ListCars(
     $filter: ModelCarFilterInput
     $limit: Int
     $nextToken: String
   ) {
     listCars(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
+      
         id
         type
         latitude
@@ -212,77 +162,66 @@ export const listCars = gql/* GraphQL */ `
         }
         createdAt
         updatedAt
-      }
-      nextToken
     }
   }
 `;
-export const getOrder = gql/* GraphQL */ `
+export const listTypeCars = gql `
+
+  query ListTypeCars(
+    $filter: ModelCarFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTypeCars(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      id
+      type
+      price
+      duration
+    }
+  }
+`;
+export const getOrder = gql`
   query GetOrder($id: ID!) {
     getOrder(id: $id) {
-      id
-      createdAt
-      type
-      status
-      originLatitude
-      oreiginLongitude
-      destLatitude
-      destLongitude
-      userId
-      user {
-        id
-        username
-        email
-        orders {
-          nextToken
-        }
-        car {
-          id
-          type
-          latitude
-          longitude
-          heading
-          isActive
-          userId
-          createdAt
-          updatedAt
-        }
-        createdAt
+      items{
+        id 
+        createdAt 
+        type 
+        status 
+        originLatitude 
+        oreiginLongitude 
+        destLatitude    
+        destLongitude  
+        userId  
+        carId     
         updatedAt
-      }
-      carId
-      car {
+      }      
+      status
+      id  
+      nextToken 
+      updatedAt  
+      car{ 
         id
         type
         latitude
         longitude
         heading
         isActive
-        orders {
-          nextToken
-        }
         userId
-        user {
-          id
-          username
-          email
-          createdAt
-          updatedAt
-        }
         createdAt
         updatedAt
       }
-      updatedAt
     }
   }
 `;
-export const listOrders =gql /* GraphQL */ `
+export const listOrders =gql`
   query ListOrders(
     $filter: ModelOrderFilterInput
     $limit: Int
     $nextToken: String
   ) {
     listOrders(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      id
       items {
         id
         createdAt
@@ -314,6 +253,19 @@ export const listOrders =gql /* GraphQL */ `
         }
         updatedAt
       }
+      
+      car {
+        id
+        type
+        latitude
+        longitude
+        heading
+        isActive
+        userId
+        createdAt
+        updatedAt
+      }
+      updatedAt
       nextToken
     }
   }

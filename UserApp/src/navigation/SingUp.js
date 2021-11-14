@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from '@react-navigation/stack'
-import SingUp from "../screens/SingUp";
+import SingUpScreen from "../screens/SingUpScreen";
 
 
 const Stack = createStackNavigator();
@@ -12,7 +12,7 @@ const SingUpNavigator = (props) => {
         headerShown: false,
       }}
     >
-      <Stack.Screen name={"SingUp"} component={SingUp} />
+      <Stack.Screen name={"SingUp"} component={SingUpScreen} />
     </Stack.Navigator>
   );
 };

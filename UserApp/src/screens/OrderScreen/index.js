@@ -1,90 +1,68 @@
 import React, { useState, useEffect } from "react";
-import { View, Dimensions, Text } from "react-native";
-import OrderMap from "../../components/OrderMap";
+import { WebSocketLink } from '@apollo/client/link/ws';
+import OrderDetail from "../../components/OrderDetail"
+//import { API, graphqlOperation } from 'aws-amplify';
 import { useRoute } from '@react-navigation/native';
-import { API, graphqlOperation } from 'aws-amplify';
-import { getOrder, getCar } from '../../graphql/queries';
-import { onOrderUpdated, onCarUpdated } from './subscriptions';
+import {onError}from "@apollo/client/link/error";
+import { getMainDefinition } from '@apollo/client/utilities';
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  HttpLink,
+  from,
+  split
+} from '@apollo/client';
+const errorLink =  onError(({graphQLErrors, networkError})=>{
+  if(graphQLErrors){
+      graphQLErrors.map(({ message }, i, locations) => {
+          alert("graphQLErrors"+JSON.stringify(message))
+      })
+  }
+})
+/* const link = from ([
+  errorLink,
+  new HttpLink({uri: "https://delivery-graphql-tidiaz.herokuapp.com/graphql"})
+]); */ 
+const wsLink = new WebSocketLink({
+  uri: 'ws://delivery-graphql-tidiaz.herokuapp.com/graphql',
+  options: {
+    reconnect: true
+  }
+});
+const httpLink = new HttpLink({
+  uri: 'https://delivery-graphql-tidiaz.herokuapp.com/graphql'
+});
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  httpLink,
+);
+const client = new ApolloClient({
+    cache: new InMemoryCache(),
+    link:splitLink
+    //link:link
+});
 
 const OrderScreen = (props) => {
-  const [car, setCar] = useState(0);
-  const [order, setOrder] = useState(0);
-
   const route = useRoute();
-  console.log(route.params.id);
-
-  // Fetch order on initial render
+  const [orderBefore, setIdOrder] = useState(null);
   useEffect(() => {
-    const fetchOrder = async () => {
-      try {
-        const orderData = await API.graphql(
-          graphqlOperation(getOrder, { id: route.params.id })
-        );
-        setOrder(orderData.data.getOrder);
-      } catch (e) {
-
-      }
-    }
-    fetchOrder();
-  }, [])
-
-  // Subscribe to order updates
-  useEffect(() => {
-    const subscription = API.graphql(
-      graphqlOperation(onOrderUpdated, { id: route.params.id })
-    ).subscribe({
-      next: ({ value }) => setOrder(value.data.onOrderUpdated),
-      error: error => console.warn(error)
-    })
-
-    return () => subscription.unsubscribe();
-  }, [])
-
-  // Fetch Car data when order is updated
-  useEffect(() => {
-    if (!order?.carId || order.carId === '1') {
-      return;
-    }
-
-    const fetchCar = async () => {
-      try {
-        const carData = await API.graphql(
-          graphqlOperation(getCar, { id: order.carId })
-        );
-        console.log(carData);
-        setCar(carData.data.getCar);
-      } catch (e) {
-
-      }
-    }
-    fetchCar();
-  }, [order])
-
-  // Subscribe to car updates
-  useEffect(() => {
-    if (!order?.carId || order.carId === '1') {
-      return;
-    }
-
-    const subscription = API.graphql(
-      graphqlOperation(onCarUpdated, { id: order.carId })
-    ).subscribe({
-      next: ({ value }) => setCar(value.data.onCarUpdated),
-      error: error => console.warn(error)
-    })
-
-    return () => subscription.unsubscribe();
-  }, [order])
-
+    console.log(route.params.ord)
+    setIdOrder(route.params.ord)
+  });
   return (
-    <View>
-      <View style={{height: Dimensions.get('window').height - 400}}>
-        <OrderMap car={car} />
-      </View>
-      <View>
-        <Text>Order status: {order?.status}</Text>
-      </View>
-    </View>
+    <ApolloProvider client={client}>
+      {orderBefore?
+      <OrderDetail orderBefore={orderBefore}/>
+      :null}
+    </ApolloProvider>
   );
 };
 

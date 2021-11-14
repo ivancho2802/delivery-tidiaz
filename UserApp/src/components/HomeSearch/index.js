@@ -1,5 +1,6 @@
-import React from "react";
-import { View, Text, Pressable } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, Pressable, Alert } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import AntDesign from "react-native-vector-icons/AntDesign";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -10,9 +11,75 @@ import styles from './styles.js';
 
 const HomeSearch = (props) => {
   const navigation = useNavigation();
+  const showTAlert = (msg) => {
+    Alert.alert(
+      "Un momento",
+      msg,
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => {
+            navigation.navigate('Login')
+            console.log("OK Pressed")
+          } 
+        }
+      ]
+    );
+  };
 
-  const goToSearch = () => {
-    navigation.navigate('DestinationSearch')
+  /* _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('TASKS');
+      if (value !== null) {
+        // We have data!!
+        console.log(value);
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  }; */
+  const [user, setUser] = useState({});//username: "----", email: "", bill: 0
+  
+  useEffect(() => {
+    async function fetchData() {
+      // You can await here
+      try {
+        const value = await AsyncStorage.getItem('tidiazuser');
+        if (value !== null) {
+          // We have data!!
+          console.log(value);
+          setUser(JSON.parse(value))//await Auth.currentAuthenticatedUser();
+        }else{
+          console.log("value");
+          console.log(value);
+        }
+      } catch (error) {
+        // Error retrieving data
+        console.error(error);
+      }
+      // ...
+    }
+    fetchData();
+  }, []);
+
+  const goToSearch = async() => {
+    try {
+      //const value = await AsyncStorage.getItem('tidiazuser');
+      if (user !== null) {
+        // We have data!!
+        console.log(user);
+        navigation.navigate('DestinationSearch')
+      }else{
+        showTAlert("lo sentimos debes iniciar sesion antes")
+        console.log(user);
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.error(error)
+    }
   }
 
   return (

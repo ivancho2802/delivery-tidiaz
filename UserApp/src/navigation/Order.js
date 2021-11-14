@@ -1,21 +1,21 @@
 import React from "react";
 import { createStackNavigator } from '@react-navigation/stack'
 
-import LoginScreen from "../screens/LoginScreen";
+import MyOrderScreen from "../screens/MyOrderScreen";
 
 const Stack = createStackNavigator();
 
-const LoginNavigator = (props) => {
+const OrderNavigator = (props) => {
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      <Stack.Screen name={"Login"} component={LoginScreen} />
+      <Stack.Screen name={"MyOrder"} component={MyOrderScreen} />
 
     </Stack.Navigator>
   );
 };
 
-export default LoginNavigator;
+export default OrderNavigator;

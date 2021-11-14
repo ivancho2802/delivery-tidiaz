@@ -1,60 +1,38 @@
-import React, { useState } from 'react';
-import {View, Dimensions, Alert} from 'react-native';
-import { API, graphqlOperation, Auth } from 'aws-amplify';
+import React from 'react';
+import {View, Dimensions} from 'react-native';
+import { useRoute } from '@react-navigation/native';
 import RouteMap from "../../components/RouteMap";
 import UberTypes from "../../components/UberTypes";
-import { createOrder } from '../../graphql/mutations';
 
-import { useRoute, useNavigation } from '@react-navigation/native';
+//api consulta apigraphl
+import {onError}from "@apollo/client/link/error";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  HttpLink,
+  from
+} from '@apollo/client';
+const errorLink =  onError(({graphQLErrors, networkError})=>{
+  if(graphQLErrors){
+      graphQLErrors.map(({ message }, i, locations) => {
+          alert("graphQLErrors"+JSON.stringify(message))
+      })
+  }
+})
+const link = from ([
+  errorLink,
+  new HttpLink({uri: "https://delivery-graphql-tidiaz.herokuapp.com/graphql"})
+]);
+const client = new ApolloClient({
+    cache: new InMemoryCache(),
+    link:link
+});
+//api consulta apigraphl
 
 const SearchResults = (props) => {
-  const typeState = useState(0);
-
   const route = useRoute();
-  const navigation = useNavigation();
-
   const {originPlace, destinationPlace} = route.params
-
-  const onSubmit = async () => {
-    const [type] = typeState;
-    if (!type) {
-      return;
-    }
-
-    // submit to server
-    try {
-      const userInfo = await Auth.currentAuthenticatedUser();
-
-      const date = new Date();
-      const input = {
-        createdAt: date.toISOString(),
-        type,
-        originLatitude: originPlace.details.geometry.location.lat,
-        oreiginLongitude: originPlace.details.geometry.location.lng,
-
-        destLatitude: destinationPlace.details.geometry.location.lat,
-        destLongitude: destinationPlace.details.geometry.location.lng,
-
-        userId: userInfo.attributes.sub,
-        carId: "1",
-        status: "NEW",
-      }
-
-      const response = await API.graphql(
-        graphqlOperation(
-          createOrder, {
-            input: input
-          },
-        )
-      )
-
-      console.log(response);
-
-      navigation.navigate('OrderPage', { id: response.data.createOrder.id });
-    } catch (e) {
-      console.error(e);
-    }
-  }
 
   return (
     <View style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -63,7 +41,9 @@ const SearchResults = (props) => {
       </View>
 
       <View style={{height: 400}}>
-        <UberTypes typeState={typeState} onSubmit={onSubmit} />
+        <ApolloProvider client={client}>
+          <UberTypes  origin={originPlace} destination={destinationPlace}/>{/*  typeState={typeState} onSubmit={onSubmit}  */}
+        </ApolloProvider>
       </View>
     </View>
   );

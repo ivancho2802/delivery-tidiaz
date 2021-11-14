@@ -1,12 +1,77 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
+/* GraphQL */
+import {gql} from '@apollo/client'
 
-export const createUser = /* GraphQL */ `
-  mutation CreateUser(
-    $input: CreateUserInput!
-    $condition: ModelUserConditionInput
+export const LoginUser = gql`
+  mutation Login(
+    $username: String!
+    $password: String!
   ) {
-    createUser(input: $input, condition: $condition) {
+    login(
+      username: $username
+      password: $password
+    ) {
+      id
+      username
+      email
+      
+      orders {
+        items {
+          id
+          createdAt
+          type
+          status
+          originLatitude
+          oreiginLongitude
+          destLatitude
+          destLongitude
+          userId
+          carId
+          updatedAt
+        }
+        nextToken
+      }
+      car {
+        id
+        type
+        latitude
+        longitude
+        heading
+        isActive
+        orders {
+          nextToken
+        }
+        userId
+        user {
+          id
+          username
+          email
+          password
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const createUser = gql `
+  mutation RegisterUser(
+    $username: String!
+    $email: String!
+    $password: String!
+  ) {
+    registerUser(
+      username: $username
+      email: $email
+      password: $password
+    ) {
+      
       id
       username
       email
@@ -54,12 +119,18 @@ export const createUser = /* GraphQL */ `
     }
   }
 `;
-export const updateUser = /* GraphQL */ `
+export const updateUser = gql `
   mutation UpdateUser(
-    $input: UpdateUserInput!
-    $condition: ModelUserConditionInput
+    $id: ID!
+    $username: String!
+    $email: String!
+    $password: String!
   ) {
-    updateUser(input: $input, condition: $condition) {
+    updateUser(
+      username: $username
+      email: $email
+      password: $password
+    ) {
       id
       username
       email
@@ -107,12 +178,11 @@ export const updateUser = /* GraphQL */ `
     }
   }
 `;
-export const deleteUser = /* GraphQL */ `
+export const deleteUser = gql `
   mutation DeleteUser(
-    $input: DeleteUserInput!
-    $condition: ModelUserConditionInput
+    $id: ID!
   ) {
-    deleteUser(input: $input, condition: $condition) {
+    deleteUser(id: $id) {
       id
       username
       email
@@ -158,12 +228,22 @@ export const deleteUser = /* GraphQL */ `
     }
   }
 `;
-export const createCar = /* GraphQL */ `
+export const createCar = gql `
   mutation CreateCar(
-    $input: CreateCarInput!
-    $condition: ModelCarConditionInput
+    
+      $type: String!
+      $latitude: Float!
+      $longitude: Float!
+      $heading: Float!
+      $isActive: Boolean!
   ) {
-    createCar(input: $input, condition: $condition) {
+    createCar(
+      type: $type
+      latitude: $latitude
+      longitude: $longitude
+      heading: $heading
+      isActive: $isActive
+    ) {
       id
       type
       latitude
@@ -213,12 +293,21 @@ export const createCar = /* GraphQL */ `
     }
   }
 `;
-export const updateCar = /* GraphQL */ `
+export const updateCar = gql `
   mutation UpdateCar(
-    $input: UpdateCarInput!
-    $condition: ModelCarConditionInput
+      $type: String!
+      $latitude: Float!
+      $longitude: Float!
+      $heading: Float!
+      $isActive: Boolean!
   ) {
-    updateCar(input: $input, condition: $condition) {
+    updateCar(
+      type: $type
+      latitude: $latitude
+      longitude: $longitude
+      heading: $heading
+      isActive: $isActive
+    ) {
       id
       type
       latitude
@@ -268,12 +357,11 @@ export const updateCar = /* GraphQL */ `
     }
   }
 `;
-export const deleteCar = /* GraphQL */ `
+export const deleteCar = gql `
   mutation DeleteCar(
-    $input: DeleteCarInput!
-    $condition: ModelCarConditionInput
+    $id: ID!
   ) {
-    deleteCar(input: $input, condition: $condition) {
+    deleteCar(id: $id) {
       id
       type
       latitude
@@ -323,74 +411,68 @@ export const deleteCar = /* GraphQL */ `
     }
   }
 `;
-export const createOrder = /* GraphQL */ `
+export const CREATE_ORDER = gql `
   mutation CreateOrder(
-    $input: CreateOrderInput!
-    $condition: ModelOrderConditionInput
+    $type: String!
+    $status: String!
+    $originLatitude: Float!
+    $oreiginLongitude: Float!
+    $destLatitude: Float!
+    $destLongitude: Float!
+    $createdAt: String!
+    $userId: ID!
+    $carId: ID!
   ) {
-    createOrder(input: $input, condition: $condition) {
+    createOrder(
+      type: $type
+      status: $status
+      originLatitude: $originLatitude
+      oreiginLongitude: $oreiginLongitude
+      destLatitude: $destLatitude
+      destLongitude: $destLongitude
+      createdAt: $createdAt
+      userId: $userId
+      carId: $carId
+    ) {
       id
-      createdAt
-      type
-      status
-      originLatitude
-      oreiginLongitude
-      destLatitude
-      destLongitude
-      userId
-      user {
-        id
-        username
-        email
-        orders {
-          nextToken
-        }
-        car {
-          id
-          type
-          latitude
-          longitude
-          heading
-          isActive
-          userId
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      carId
-      car {
-        id
-        type
-        latitude
-        longitude
-        heading
-        isActive
-        orders {
-          nextToken
-        }
-        userId
-        user {
-          id
-          username
-          email
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
       updatedAt
+      nextToken
+      items {
+        id
+        createdAt
+        type
+        status
+        originLatitude
+        oreiginLongitude
+        destLatitude
+        destLongitude
+        userId
+        carId
+        updatedAt
+      }
     }
   }
 `;
-export const updateOrder = /* GraphQL */ `
+export const UPDATE_ORDER = gql `
   mutation UpdateOrder(
-    $input: UpdateOrderInput!
-    $condition: ModelOrderConditionInput
+      $id: ID!
+      $carId: String!
+      $items: String!
+      $nextToken: String!
+      $updatedAt: String!
+      $status: String!
   ) {
-    updateOrder(input: $input, condition: $condition) {
+    updateOrder(
+      id: $id
+      createdAt: $createdAt
+      type: $type
+      status: $status
+      originLatitude: $originLatitude
+      oreiginLongitude: $oreiginLongitude
+      destLatitude: $destLatitude
+      destLongitude: $destLongitude
+      userId: $userId
+    ) {
       id
       createdAt
       type
@@ -447,12 +529,13 @@ export const updateOrder = /* GraphQL */ `
     }
   }
 `;
-export const deleteOrder = /* GraphQL */ `
+export const deleteOrder = gql `
   mutation DeleteOrder(
-    $input: DeleteOrderInput!
-    $condition: ModelOrderConditionInput
+      $id: ID!
   ) {
-    deleteOrder(input: $input, condition: $condition) {
+    deleteOrder(
+    id: $id
+    ) {
       id
       createdAt
       type

@@ -9,32 +9,41 @@ import { listCars } from '../../graphql/queries';
 // import cars from '../../assets/data/cars';
 
 const HomeMap = (props) => {
-  //const [cars, setCars] = useState([]);
-  const [cars, setCars] = useState(0);
-
+  const [cars, setCars] = useState([]);
+  const { error, loading, data } = useQuery(listCars, {
+    variables:{
+      filter: {id: ""},
+      limit: 10,
+      nextToken: "1"
+    }
+  });
   useEffect(() => {
-    const fetchCars = async () => {
-      try {
-        // exampe 
-        //const {error, loadinng, data} =useQuery( listCars );
-        const response = await useQuery( listCars );
-        console.log("graph reuet ivan diaz")
-        console.log(response)
-        /*
-        const response = await API.graphql(
-          useQuery(
-            listCars
-          )
-        )*/
-
-        setCars(response.data.listCars.items);
-      } catch (e) {
-        console.error(e);
+    try {
+      // exampe 
+      if (data) {
+        /* console.log(data) */
+        /* {"listCars": [
+          {"__typename": "Car", "createdAt": "1636144813388", "heading": 0.5, "id": "6179cf818b2dc3ea11f428ce", 
+          "isActive": true, "latitude": 7.8899765895296525, "longitude": -72.49791163530774, "orders": null, 
+          "type": "UberX", "updatedAt": "1636144813388", "user": null, "userId": "123"}, 
+          {"__typename": "Car", "createdAt": "1469016015000", "heading": 0.5, "id": "61857f92319ea6d8f1b4aa12", 
+          "isActive": true, "latitude": 7.889301757254577, "longitude": -72.49679047190295, "orders": null,
+           "type": "Comfort", "updatedAt": "1469016015000", "user": null, "userId": "123"}]} */
+        setCars(data.listCars);
       }
-    };
-
-    fetchCars();
-  }, [])
+      /*const response = await useQuery( listCars );
+      console.log("graph reuet ivan diaz")
+      console.log(response)
+      setCars(response.data.listCars.items);
+      */
+    } catch (e) {
+      console.error(e);
+    }
+  }, [data])
+  /* console.log("carss")
+  console.log(cars)
+  console.log("data")
+  console.log(data) */
 
   const getImage = (type) => {
     if (type === 'UberX') {
@@ -52,8 +61,8 @@ const HomeMap = (props) => {
       provider={PROVIDER_GOOGLE}
       showsUserLocation={true}
       initialRegion={{
-        latitude: 28.450627,
-        longitude: -16.263045,
+        latitude: 7.8880318,
+        longitude: -72.4989416,
         latitudeDelta: 0.0222,
         longitudeDelta: 0.0121,
       }}>

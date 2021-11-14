@@ -56,7 +56,7 @@ const App: () => React$Node = () => {
 
   return (
     <>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" />
       <Router />
     </>
   );

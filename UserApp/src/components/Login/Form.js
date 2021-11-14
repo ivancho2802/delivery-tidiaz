@@ -1,92 +1,119 @@
-import React, { useState } from "react";
-//import { CREATE_USER_MUTATION } from "../GraphQL/Mutations";
+import React, { useState, useEffect }  from "react";
+import { View, Text, TextInput, Button, Pressable  } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import AntDesign from "react-native-vector-icons/AntDesign";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Entypo from "react-native-vector-icons/Entypo";
+import {useNavigation} from '@react-navigation/native'
+
+import styles from './styles.js';
+
 import { useMutation, useQuery } from "@apollo/client";
-import { View, Dimensions, ScrollView, SafeAreaView } from "react-native";
-import {LoginUser} from '../../graphql/queries'
+import {LOAD_USER} from '../../graphql/queries'
+import {LoginUser} from '../../graphql/mutations';
 
-function Form() {
-  /*
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const [createUser, { error }] = useMutation(CREATE_USER_MUTATION);
-   const addUser = () => {
-    createUser({
-      variables: {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-      },
-    });
-
-    if (error) {
-      console.log(error);
+const Form = () => { //{typeState, userName, onSubmit}
+  
+  /* const { error, loading, data } = useQuery(LOAD_USER, {
+    variables:{
+      id: "617d6d1d6eb74e83472faf52"
     }
-  }; */
-  const [login, {error}] = useQuery(LoginUser)
-  const onSubmit=(d)=>{
-    alert(JSON.stringify(d))
-    var result = login({
-      variables: {
-        username:d.username,
-        password:d.password
-      }
-    });
-    if(error){
+  });
+  const [users, setUsers] = useState({});
+  useEffect(() => {
+    if (data) {
+      setUsers(data.getUser);
+    }
+  }, [data]);
+  console.log("users")
+  console.log(users) */
+  
+  _storeGData = async (value) => {
+    try {
+      const datatidiazuser = await AsyncStorage.getItem("tidiazuser")
+      if(datatidiazuser)
+      return datatidiazuser!==null ? JSON.parse(datatidiazuser) : {}
+      else
+      return {}
+    } catch (error) {
+      // Error saving data
+      console.log("error")
+      console.log(error)
+      return {}
+    }
+  };
+  _storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem(
+        'tidiazuser',
+        JSON.stringify(value)
+      );
+      console.log(("tidiazuser"))
+      var xx = await _storeGData()
+      console.log("xx")
+      console.log(xx)
+    } catch (error) {
+      // Error saving data
+      console.log("error")
       console.log(error)
     }
-    console.log(result)
-  }
+  };
+  const [selectedType, setSelectedType] = useState("");
+  const [selectedU, setSelectedU] = useState("");
+
+  const [Login, { error }] = useMutation(LoginUser);
+
+  const onPressBegin = async  () => {
+    try {
+      console.log("username"+selectedU)
+      console.log("password"+selectedType)
+      var responseLogin = await Login({
+        variables: {
+          username: selectedU,
+          password: selectedType,
+        },
+      });
+
+      if (error) {
+        console.log(error);
+      }
+      if (responseLogin) {
+        console.log(responseLogin);
+        _storeData(responseLogin.data.login)
+        //navigation.navigate('Login')
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  
   return (
-    <View>
-      <form onSubmit={onSubmit}>
-        <label style={styles.inputText}>
-          Email
-          <input type="email" name="email"/>
-        </label>
-        <label style={styles.inputText}>
-          Contraseña
-          <input type="password" name="password"/>
-        </label>
-        <button type={submit}> Create User</button>
-      
-      </form>
+    <View  style={styles.container}>
+        <Text style={styles.textCenter}>
+          Inicio de sesion
+        </Text>
+         <TextInput
+          style={styles.inputText}
+          onChangeText={setSelectedU}
+          value={selectedU}
+          placeholder=" Username o Email"
+        />
+        <TextInput
+          style={styles.inputText}
+          onChangeText={setSelectedType}
+          value={selectedType}
+          placeholder="Contraseña"
+          keyboardType="visible-password"
+        /> 
+         <Button
+          onPress={onPressBegin}
+          title="Iniciar Sesion"
+          style={styles.inputBoxB}
+          accessibilityLabel="Learn more about this purple button"
+        />
     </View>
-    /* <div>
-      <input
-        type="text"
-        placeholder="First Name"
-        onChange={(e) => {
-          setFirstName(e.target.value);
-        }}
-      />
-      <input
-        type="text"
-        placeholder="Last Name"
-        onChange={(e) => {
-          setLastName(e.target.value);
-        }}
-      />
-      <input
-        type="text"
-        placeholder="Email"
-        onChange={(e) => {
-          setEmail(e.target.value);
-        }}
-      />
-      <input
-        type="text"
-        placeholder="Password"
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-      />
-      <button onClick={addUser}> Create User</button>
-    </div> */
   );
-}
+};
 
 export default Form;

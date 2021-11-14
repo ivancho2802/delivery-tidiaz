@@ -1,10 +1,7 @@
-import React from "react";
-import { View, Dimensions, ScrollView, SafeAreaView } from "react-native";
-
-import HomeMap from '../../components/HomeMap';
-import CovidMessage from '../../components/CovidMessage';
-import HomeSearch from '../../components/HomeSearch'; 
-
+import React, { useState } from 'react';
+import { View, Dimensions, Text, Alert, ScrollView, SafeAreaView } from "react-native";
+import List from '../../components/MyOrder/List.js';
+import styles from './styles.js';
 import {onError}from "@apollo/client/link/error";
 import {
   ApolloClient,
@@ -28,27 +25,17 @@ const client = new ApolloClient({
     cache: new InMemoryCache(),
     link:link
 });
-import styles from './styles.js';
 
-const HomeScreen = (props) => {
+const MyOrderScreen = (props) => { 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        <View style={{height: Dimensions.get('window').height - 400}}>
-          <ApolloProvider client={client}>
-            <HomeMap />
-          </ApolloProvider>
-        </View>
-
-        {/*  Covid Message*/}
-        <CovidMessage />
-
-        {/*  Bottom Comp*/}
-        <HomeSearch />
-
+        <ApolloProvider client={client}>
+          <List />
+        </ApolloProvider>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default HomeScreen;
+export default MyOrderScreen;

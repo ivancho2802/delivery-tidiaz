@@ -11,7 +11,7 @@ import {onError}from "@apollo/client/link/error"
 const errorLink = onError(({graphQLErrors, networkError})=>{
     if(graphQLErrors){
         graphQLErrors.map(({ message }, i, locations) => {
-            alert("graphQLErrors"+{message})
+            alert("graphQLErrors"+JSON.stringify(message))
         })
     }
 })

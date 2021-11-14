@@ -7,22 +7,24 @@ import styles from './styles.js';
 import PlaceRow from "./PlaceRow";
 
 const homePlace = {
-  description: 'Home',
-  geometry: { location: { lat: 48.8152937, lng: 2.4597668 } },
+  description: 'Dominos Pizza',
+  geometry: { location: { lat: 7.8835836, lng: -72.5052658 } },
 };
 const workPlace = {
-  description: 'Work',
-  geometry: { location: { lat: 48.8496818, lng: 2.2940881 } },
+  description: 'MacDonalds',
+  geometry: { location: { lat: 7.8409097, lng: -72.5054875 } },
 };
 
 const DestinationSearch = (props) => {
-  const [originPlace, setOriginPlace] = useState(0);
-  const [destinationPlace, setDestinationPlace] = useState(0);
+  const [originPlace, setOriginPlace] = useState({});
+  const [destinationPlace, setDestinationPlace] = useState({});
 
   const navigation = useNavigation();
 
   const checkNavigation = () => {
-    if (originPlace && destinationPlace) {
+    console.log(originPlace)
+    console.log(destinationPlace)
+    if (Object.keys(originPlace).length && Object.keys(destinationPlace).length) {
       navigation.navigate('SearchResults', {
         originPlace,
         destinationPlace,
@@ -41,7 +43,7 @@ const DestinationSearch = (props) => {
         <GooglePlacesAutocomplete
           placeholder="Where from?"
           onPress={(data, details = null) => {
-            setOriginPlace({data, details});
+            setOriginPlace({data, details, latitude: details.geometry.location.lat, longitude: details.geometry.location.lng});
           }}
           enablePoweredByContainer={false}
           suppressDefaultStyles
@@ -66,7 +68,7 @@ const DestinationSearch = (props) => {
         <GooglePlacesAutocomplete
           placeholder="Where to?"
           onPress={(data, details = null) => {
-            setDestinationPlace({data, details});
+            setDestinationPlace({data, details, latitude: details.geometry.location.lat, longitude: details.geometry.location.lng});
           }}
           enablePoweredByContainer={false}
           suppressDefaultStyles
@@ -84,6 +86,8 @@ const DestinationSearch = (props) => {
             language: 'en',
           }}
           renderRow={(data) => <PlaceRow data={data} />}
+          renderDescription={(data) => data.description || data.vicinity}
+          predefinedPlaces={[homePlace, workPlace]}
         />
 
         {/* Circle near Origin input */}

@@ -1,7 +1,8 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
+import {gql} from '@apollo/client'
 
-export const onOrderUpdated = /* GraphQL */ `
+export const onOrderUpdated = gql `
   subscription OnOrderUpdated($id: ID!) {
     onOrderUpdated(id: $id) {
       id
@@ -60,7 +61,7 @@ export const onOrderUpdated = /* GraphQL */ `
     }
   }
 `;
-export const onCarUpdated = /* GraphQL */ `
+export const onCarUpdated= gql `
   subscription OnCarUpdated($id: ID!) {
     onCarUpdated(id: $id) {
       id
@@ -112,7 +113,7 @@ export const onCarUpdated = /* GraphQL */ `
     }
   }
 `;
-export const onCreateUser = /* GraphQL */ `
+export const onCreateUser = gql `
   subscription OnCreateUser {
     onCreateUser {
       id
@@ -160,7 +161,7 @@ export const onCreateUser = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateUser = /* GraphQL */ `
+export const onUpdateUser = gql `
   subscription OnUpdateUser {
     onUpdateUser {
       id
@@ -208,7 +209,7 @@ export const onUpdateUser = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteUser = /* GraphQL */ `
+export const onDeleteUser = gql `
   subscription OnDeleteUser {
     onDeleteUser {
       id
@@ -256,7 +257,7 @@ export const onDeleteUser = /* GraphQL */ `
     }
   }
 `;
-export const onCreateCar = /* GraphQL */ `
+export const onCreateCar = gql `
   subscription OnCreateCar {
     onCreateCar {
       id
@@ -308,7 +309,7 @@ export const onCreateCar = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateCar = /* GraphQL */ `
+export const onUpdateCar = gql `
   subscription OnUpdateCar {
     onUpdateCar {
       id
@@ -360,7 +361,7 @@ export const onUpdateCar = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteCar = /* GraphQL */ `
+export const onDeleteCar = gql `
   subscription OnDeleteCar {
     onDeleteCar {
       id
@@ -412,7 +413,7 @@ export const onDeleteCar = /* GraphQL */ `
     }
   }
 `;
-export const onCreateOrder = /* GraphQL */ `
+export const onCreateOrder = gql `
   subscription OnCreateOrder {
     onCreateOrder {
       id
@@ -471,7 +472,7 @@ export const onCreateOrder = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateOrder = /* GraphQL */ `
+export const onUpdateOrder = gql `
   subscription OnUpdateOrder {
     onUpdateOrder {
       id
@@ -530,7 +531,7 @@ export const onUpdateOrder = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteOrder = /* GraphQL */ `
+export const onDeleteOrder = gql `
   subscription OnDeleteOrder {
     onDeleteOrder {
       id

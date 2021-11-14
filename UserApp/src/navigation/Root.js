@@ -4,9 +4,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import HomeNavigator from "./Home";
+import CustomDrawer from "./CustomDrawer";
 import LoginNavigator from "./Login";
 import SingUpNavigator from "./SingUp";
-import CustomDrawer from "./CustomDrawer";
+import OrderNavigator from "./Order";
 
 const Drawer = createDrawerNavigator();
 
@@ -25,6 +26,8 @@ const RootNavigator = (props) => {
       }>
         <Drawer.Screen name="Home" component={HomeNavigator} />
 
+        <Drawer.Screen name="Mis Pedidos" component={OrderNavigator} />
+
         <Drawer.Screen name="Your Trips">
            {() => <DummyScreen name={"Your Trips"} />}
         </Drawer.Screen>
@@ -41,6 +44,7 @@ const RootNavigator = (props) => {
           {() => <DummyScreen name={"Settings"} />}
         </Drawer.Screen>
         <Drawer.Screen name="Login" component={LoginNavigator} />
+        
         <Drawer.Screen name="SingUp" component={SingUpNavigator} />
 
       </Drawer.Navigator>
